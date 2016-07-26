@@ -45,6 +45,6 @@
   // certificates and automatically renew it every hour.
   "letsEncrypt": {
     "domain": "myapp.com",
-    "email": "dmitry.tsepelev@landy.io"
+    "email": "john.doe@myapp.com"
   }
 }
