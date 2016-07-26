@@ -1,6 +1,6 @@
 # Meteor Up X with Let's Encrypt support
 
-#### MupX fork with Let's Encrypt support
+### MupX fork with Let's Encrypt support
 
 This is Meteor-Up MupX fork, with Let's encrypt support out of the box. It is built on top of [Docker-letsencrypt-nginx-proxy-companion](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion).
 
@@ -9,7 +9,7 @@ To take an advantage of Let's encrypt certificates you will need to specify lets
 ```js
 "letsEncrypt": {
   "domain": "myapp.com",
-  "email": "johndoe@gmail.com"
+  "email": "johndoe@myapp.com"
 }
 ```
 
@@ -21,7 +21,7 @@ After letsEncrypt object is specified we'll start 3 additional containers:
 Letsencrypt-nginx-proxy-companion will create certificates for specified domain and renew them every hour. **It could take up to 5 minutes to generate your first certificate, so be patient :)**
 
 
-#### Production Quality Meteor Deployments
+### Production Quality Meteor Deployments
 
 Meteor Up is a command line tool that allows you to deploy any [Meteor](http://meteor.com) app to your own server. It currently supports Ubuntu. There are plans to support other linux distros soon.
 
