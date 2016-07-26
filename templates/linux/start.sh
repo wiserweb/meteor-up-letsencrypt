@@ -6,8 +6,7 @@ BUNDLE_PATH=$APP_PATH/current
 ENV_FILE=$APP_PATH/config/env.list
 PORT=<%= port %>
 USE_LOCAL_MONGO=<%= useLocalMongo? "1" : "0" %>
-LETSENCRYPT_HOST=<%= letsEncrypt.domain %>
-LETSENCRYPT_EMAIL=<%= letsEncrypt.email %>
+USE_LETSENCRYPT=<%= typeof letsEncrypt === "object"? "1" : "0" %>
 
 # Remove previous version of the app, if exists
 docker rm -f $APPNAME
@@ -27,6 +26,9 @@ set -e
 
 
 <% if(typeof sslConfig !== "object" && typeof letsEncrypt === "object")  { %>
+  LETSENCRYPT_HOST=<%= letsEncrypt.domain %>
+  LETSENCRYPT_EMAIL=<%= letsEncrypt.email %>
+
   set +e
   docker pull nginx:latest
   set -e
@@ -62,37 +64,63 @@ set -e
     -v $APP_PATH/config/certs:/etc/nginx/certs:rw \
     -v /var/run/docker.sock:/var/run/docker.sock:ro \
     jrcs/letsencrypt-nginx-proxy-companion
+
+  if [ "$USE_LOCAL_MONGO" == "1" ]; then
+    docker run \
+      -d \
+      --restart=always \
+      --expose=$PORT \
+      --volume=$BUNDLE_PATH:/bundle \
+      --env-file=$ENV_FILE \
+      --link=mongodb:mongodb \
+      --hostname="$HOSTNAME-$APPNAME" \
+      --env=MONGO_URL=mongodb://mongodb:27017/$APPNAME \
+      --name=$APPNAME \
+      -e "VIRTUAL_HOST=$LETSENCRYPT_HOST" \
+      -e "LETSENCRYPT_HOST=$LETSENCRYPT_HOST" \
+      -e "LETSENCRYPT_EMAIL=$LETSENCRYPT_EMAIL" \
+      meteorhacks/meteord:base
+  else
+    docker run \
+      -d \
+      --restart=always \
+      --expose=$PORT \
+      --volume=$BUNDLE_PATH:/bundle \
+      --hostname="$HOSTNAME-$APPNAME" \
+      --env-file=$ENV_FILE \
+      --name=$APPNAME \
+      -e "VIRTUAL_HOST=$LETSENCRYPT_HOST" \
+      -e "LETSENCRYPT_HOST=$LETSENCRYPT_HOST" \
+      -e "LETSENCRYPT_EMAIL=$LETSENCRYPT_EMAIL" \
+      meteorhacks/meteord:base
+  fi
 <% } %>
 
-if [ "$USE_LOCAL_MONGO" == "1" ]; then
-  docker run \
-    -d \
-    --restart=always \
-    --expose=$PORT \
-    --volume=$BUNDLE_PATH:/bundle \
-    --env-file=$ENV_FILE \
-    --link=mongodb:mongodb \
-    --hostname="$HOSTNAME-$APPNAME" \
-    --env=MONGO_URL=mongodb://mongodb:27017/$APPNAME \
-    --name=$APPNAME \
-    -e "VIRTUAL_HOST=$LETSENCRYPT_HOST" \
-    -e "LETSENCRYPT_HOST=$LETSENCRYPT_HOST" \
-    -e "LETSENCRYPT_EMAIL=$LETSENCRYPT_EMAIL" \
-    meteorhacks/meteord:base
-else
-  docker run \
-    -d \
-    --restart=always \
-    --expose=$PORT \
-    --volume=$BUNDLE_PATH:/bundle \
-    --hostname="$HOSTNAME-$APPNAME" \
-    --env-file=$ENV_FILE \
-    --name=$APPNAME \
-    -e "VIRTUAL_HOST=$LETSENCRYPT_HOST" \
-    -e "LETSENCRYPT_HOST=$LETSENCRYPT_HOST" \
-    -e "LETSENCRYPT_EMAIL=$LETSENCRYPT_EMAIL" \
-    meteorhacks/meteord:base
-fi
+<% if(typeof letsEncrypt !== "object")  { %>
+  if [ "$USE_LOCAL_MONGO" == "1" ]; then
+    docker run \
+      -d \
+      --restart=always \
+      --publish=$PORT:80 \
+      --volume=$BUNDLE_PATH:/bundle \
+      --env-file=$ENV_FILE \
+      --link=mongodb:mongodb \
+      --hostname="$HOSTNAME-$APPNAME" \
+      --env=MONGO_URL=mongodb://mongodb:27017/$APPNAME \
+      --name=$APPNAME \
+      meteorhacks/meteord:base
+  else
+    docker run \
+      -d \
+      --restart=always \
+      --publish=$PORT:80 \
+      --volume=$BUNDLE_PATH:/bundle \
+      --hostname="$HOSTNAME-$APPNAME" \
+      --env-file=$ENV_FILE \
+      --name=$APPNAME \
+      meteorhacks/meteord:base
+  fi
+<% } %>
 
 
 <% if(typeof sslConfig === "object")  { %>
