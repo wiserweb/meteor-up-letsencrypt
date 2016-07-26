@@ -1,6 +1,25 @@
-# Meteor Up X (Stable Version)
+# Meteor Up X with Let's Encrypt support
 
-> The latest development version of mup is https://github.com/kadirahq/meteor-up.
+#### MupX fork with Let's Encrypt support
+
+This is Meteor-Up MupX fork, with Let's encrypt support out of the box. It is built on top of [Docker-letsencrypt-nginx-proxy-companion](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion).
+
+To take an advantage of Let's encrypt certificates you will need to specify letsEncrypt object inside [mup.json](https://github.com/dtsepelev/meteor-up-letsencrypt/blob/mupx/example/mup.json) file
+
+```js
+"letsEncrypt": {
+  "domain": "myapp.com",
+  "email": "johndoe@gmail.com"
+}
+```
+
+After letsEncrypt object is specified we'll start 3 additional containers:
+- Official Nginx container
+- Nginx-proxy using using the jwilder/docker-gen
+- Let's encrypt proxy companion.
+
+Letsencrypt-nginx-proxy-companion will create certificates for specified domain and renew them every hour. **It could take up to 5 minutes to generate your first certificate, so be patient :)**
+
 
 #### Production Quality Meteor Deployments
 
@@ -54,7 +73,7 @@ This version of Meteor Up is powered by [Docker](http://www.docker.com/) and it 
 
 ### Installation
 
-    npm install -g mupx
+    npm install -g mupx-letsencrypt
 
 ### Creating a Meteor Up Project
 
@@ -114,28 +133,35 @@ This will create two files in your Meteor Up project directory:
   // show a progress bar while uploading.
   // Make it false when you deploy using a CI box.
   "enableUploadProgressBar": true
+
+  // If letsEncrypt object exists - Meteor Up will generate Let's encrypt
+  // certificates and automatically renew it every hour.
+  "letsEncrypt": {
+    "domain": "myapp.com",
+    "email": "johndoe@myapp.com"
+  }
 }
 ```
 
 ### Setting Up a Server
 
-    mupx setup
+    mupx-letsencrypt setup
 
 This will setup the server for the `mupx` deployments. It will take around 2-5 minutes depending on the server's performance and network availability.
 
 ### Deploying an App
 
-    mupx deploy
+    mupx-letsencrypt deploy
 
 This will bundle the Meteor project and deploy it to the server. Bundling process is very similar to how `meteor deploy` do it.
 
 ### Other Utility Commands
 
-* `mupx reconfig` - reconfigure app with new environment variables and Meteor settings
-* `mupx stop` - stop the app
-* `mupx start` - start the app
-* `mupx restart` - restart the app
-* `mupx logs [-f --tail=50]` - get logs
+* `mupx-letsencrypt reconfig` - reconfigure app with new environment variables and Meteor settings
+* `mupx-letsencrypt stop` - stop the app
+* `mupx-letsencrypt start` - start the app
+* `mupx-letsencrypt restart` - restart the app
+* `mupx-letsencrypt logs [-f --tail=50]` - get logs
 
 ### Build Options
 
@@ -200,7 +226,7 @@ And you also need to add NOPASSWD to the sudoers file:
     %sudo  ALL=(ALL) ALL
 
     # by this line
-    %sudo ALL=(ALL) NOPASSWD:ALL  
+    %sudo ALL=(ALL) NOPASSWD:ALL
 
 When this process is not working you might encounter the following error:
 
@@ -305,7 +331,7 @@ To learn more about the SSL setup refer to the [`mup-frontend-server`](https://g
 
 To update `mupx` to the latest version, just type:
 
-    npm update mupx -g
+    npm update mupx-letsencrypt -g
 
 You should try and keep `mupx` up to date in order to keep up with the latest Meteor changes.
 
@@ -319,13 +345,13 @@ One of the most common problems is your Node version getting out of date. In tha
 #### Verbose Output
 If you need to see the output of `mupx` (to see more precisely where it's failing or hanging, for example), run it like so:
 
-    DEBUG=* mupx <command>
+    DEBUG=* mupx-letsencrypt <command>
 
-where `<command>` is one of the `mupx` commands such as `setup`, `deploy`, etc.
+where `<command>` is one of the `mupx-letsencrypt` commands such as `setup`, `deploy`, etc.
 
 ### Migrating from Meteor Up 0.x
 
-`mupx` is not fully backward compatible with Meteor Up 0.x. But most of the `mup.json` remain the same. Here are some of the changes:
+`mupx-letsencrypt` is not fully backward compatible with Meteor Up 0.x. But most of the `mup.json` remain the same. Here are some of the changes:
 
 * Docker is the now runtime for Meteor Up
 * We don't have use Upstart any more
@@ -347,4 +373,4 @@ Let's assume our appName is `meteor`
 * Stop mongodb if you are using: `stop mongod`
 * Remove MongoDB with: `apt-get remove mongodb`
 
-Then do `mupx setup` and then `mupx deploy`.
+Then do `mupx-letsencrypt setup` and then `mupx-letsencrypt deploy`.
