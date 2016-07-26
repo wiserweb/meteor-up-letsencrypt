@@ -13,13 +13,17 @@ To take an advantage of Let's encrypt certificates you will need to specify lets
 }
 ```
 
+If you're upading your existing project first update your setup environment:
+```
+mupx-letsencrypt setup
+```
+
 After letsEncrypt object is specified we'll start 3 additional containers:
 - Official Nginx container
 - Nginx-proxy using using the jwilder/docker-gen
 - Let's encrypt proxy companion.
 
 Letsencrypt-nginx-proxy-companion will create certificates for specified domain and renew them every hour. **It could take up to 5 minutes to generate your first certificate, so be patient :)**
-
 
 ### Production Quality Meteor Deployments
 
