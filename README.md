@@ -1,5 +1,8 @@
 # Meteor Up X with free SSL certificates by Let's Encrypt
 
+> This version currently support <= Meteor 1.3.5.4.
+
+> For Meteor 1.4 support use *npm install -g mupx-letsencrypt@meteor14*
 
 ### Let's Encrypt support
 
