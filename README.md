@@ -1,10 +1,16 @@
-# Meteor Up X with Let's Encrypt support
+# Meteor Up X with free SSL certificates by Let's Encrypt
 
-### MupX fork with Let's Encrypt support
 
-This is Meteor-Up MupX fork, with Let's encrypt support out of the box. It is built on top of [Docker-letsencrypt-nginx-proxy-companion](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion).
+### Let's Encrypt support
 
-To take an advantage of Let's encrypt certificates you will need to specify letsEncrypt object inside [mup.json](https://github.com/dtsepelev/meteor-up-letsencrypt/blob/mupx/example/mup.json) file
+This is [Meteor-Up mupx](https://github.com/arunoda/meteor-up/tree/mupx) fork, with [Let's encrypt](https://letsencrypt.org) support out of the box. It is built on top of [Docker-letsencrypt-nginx-proxy-companion](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion).
+
+#### Installation
+
+    npm install -g mupx-letsencrypt
+
+#### Configuration
+To automatically get and renew Let's encrypt certificates for your app you will need to specify letsEncrypt object inside [mup.json](https://github.com/dtsepelev/meteor-up-letsencrypt/blob/mupx/example/mup.json) file
 
 ```js
 "letsEncrypt": {
@@ -13,19 +19,23 @@ To take an advantage of Let's encrypt certificates you will need to specify lets
 }
 ```
 
-If you're upading your existing project first update your setup environment:
-```
-mupx-letsencrypt setup
-```
+If you're updating your existing project first you will need to update your setup environment:
+
+    mupx-letsencrypt setup
+
 
 After letsEncrypt object is specified we'll start 3 additional containers:
 - Official Nginx container
-- Nginx-proxy using using the jwilder/docker-gen
+- Nginx-proxy using the jwilder/docker-gen
 - Let's encrypt proxy companion.
 
-Letsencrypt-nginx-proxy-companion will create certificates for specified domain and renew them every hour. **It could take up to 5 minutes to generate your first certificate, so be patient :)**
+Letsencrypt-nginx-proxy-companion will create certificates for specified domain and renew them every hour. **It could take up to 2 minutes to generate your first certificate, so be patient :)**
+
+
 
 ### Production Quality Meteor Deployments
+
+*The documentation below mirrors original mupx documentation*
 
 Meteor Up is a command line tool that allows you to deploy any [Meteor](http://meteor.com) app to your own server. It currently supports Ubuntu. There are plans to support other linux distros soon.
 
@@ -83,7 +93,7 @@ This version of Meteor Up is powered by [Docker](http://www.docker.com/) and it 
 
     mkdir ~/my-meteor-deployment
     cd ~/my-meteor-deployment
-    mupx init
+    mupx-letsencrypt init
 
 This will create two files in your Meteor Up project directory:
 
@@ -342,7 +352,7 @@ You should try and keep `mupx` up to date in order to keep up with the latest Me
 ### Troubleshooting
 
 #### Check Logs
-If you suddenly can't deploy your app anymore, first use the `mupx logs -f` command to check the logs for error messages.
+If you suddenly can't deploy your app anymore, first use the `mupx-letsencrypt logs -f` command to check the logs for error messages.
 
 One of the most common problems is your Node version getting out of date. In that case, see “Updating” section above.
 

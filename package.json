@@ -1,6 +1,6 @@
 {
   "name": "mupx-letsencrypt",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Meteor Deployments with Let's Encrypt support",
   "dependencies": {
     "async": "^0.9.0",
@@ -20,7 +20,7 @@
   "author": "Dmitry Tsepelev <dmitry.tsepelev@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "git://github.com/dtsepelev/meteor-up-letsencrypt"
+    "url": "git://github.com/dtsepelev/meteor-up-letsencrypt/tree/mupx"
   },
   "license": "MIT"
 }
