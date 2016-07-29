@@ -1,24 +1,26 @@
 {
-  "name": "mup",
-  "version": "0.11.3",
-  "description": "Production Quality Meteor Deployments",
+  "name": "mupx-letsencrypt",
+  "version": "1.0.0",
+  "description": "Meteor Deployments with Let's Encrypt support",
   "dependencies": {
     "async": "^0.9.0",
     "cjson": "0.3.x",
     "colors": "0.6.x",
-    "nodemiral": "^1.1.1",
+    "nodemiral": "^1.0.1",
     "rimraf": "2.x.x",
     "underscore": "1.7.0",
     "uuid": "1.4.x",
-    "archiver": "0.14.x"
+    "archiver": "0.14.x",
+    "update-notifier": "0.4.x",
+    "minimist": "1.1.1"
   },
   "bin": {
-    "mup": "./bin/mup"
+    "mupx-letsencrypt": "./bin/mup"
   },
-  "author": "Arunoda Susiripala <arunoda.susiripala@gmail.com>",
+  "author": "Dmitry Tsepelev <dmitry.tsepelev@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "git://github.com/arunoda/meteor-up.git"
+    "url": "git://github.com/dtsepelev/meteor-up-letsencrypt"
   },
   "license": "MIT"
 }
