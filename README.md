@@ -1,5 +1,7 @@
 # Meteor Up X with free SSL certificates by Let's Encrypt
 
+> This beta is intended to support Meteor 1.4 using abernix/meteord:base docker image.
+> As soon as official mupx & meteorhacks/meteord:base image support of Meteor 1.4 will be released - we'll update latest version of npm package.
 
 ### Let's Encrypt support
 
@@ -7,7 +9,7 @@ This is [Meteor-Up mupx](https://github.com/arunoda/meteor-up/tree/mupx) fork, w
 
 #### Installation
 
-    npm install -g mupx-letsencrypt
+    npm install -g mupx-letsencrypt@meteor14
 
 #### Configuration
 To automatically get and renew Let's encrypt certificates for your app you will need to specify letsEncrypt object inside [mup.json](https://github.com/dtsepelev/meteor-up-letsencrypt/blob/mupx/example/mup.json) file
