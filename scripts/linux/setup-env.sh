@@ -6,10 +6,8 @@ sudo mkdir -p /opt/<%= appName %>/config/certs
 sudo mkdir -p /opt/<%= appName %>/tmp
 sudo mkdir -p /opt/mongodb
 
-sudo mkdir -p /etc/nginx/
 sudo mkdir -p /etc/nginx/vhost.d
 sudo mkdir -p /etc/nginx/conf.d
-sudo mkdir -p /usr/share/nginx
 sudo mkdir -p /usr/share/nginx/html
 
 sudo chown ${USER} /opt/<%= appName %> -R
