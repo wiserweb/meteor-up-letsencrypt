@@ -54,7 +54,7 @@ set -e
     -notify-sighup nginx -watch -only-exposed -wait 5s:30s /etc/docker-gen/templates/nginx.tmpl /etc/nginx/conf.d/default.conf
 
   set +e
-  docker pull jrcs/letsencrypt-nginx-proxy-companion:latest
+  docker pull alastaircoote/docker-letsencrypt-nginx-proxy-companion:latest
   set -e
 
   docker run -d \
@@ -63,7 +63,7 @@ set -e
     --volumes-from nginx \
     -v $APP_PATH/config/certs:/etc/nginx/certs:rw \
     -v /var/run/docker.sock:/var/run/docker.sock:ro \
-    jrcs/letsencrypt-nginx-proxy-companion
+    alastaircoote/docker-letsencrypt-nginx-proxy-companion
 
   if [ "$USE_LOCAL_MONGO" == "1" ]; then
     docker run \
