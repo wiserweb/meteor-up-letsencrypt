@@ -21,7 +21,7 @@ docker rm -f letsencrypt-companion
 
 # We don't need to fail the deployment because of a docker hub downtime
 set +e
-docker pull meteorhacks/meteord:base
+docker pull <%= dockerImage %>
 set -e
 
 
@@ -79,7 +79,7 @@ set -e
       -e "VIRTUAL_HOST=$LETSENCRYPT_HOST" \
       -e "LETSENCRYPT_HOST=$LETSENCRYPT_HOST" \
       -e "LETSENCRYPT_EMAIL=$LETSENCRYPT_EMAIL" \
-      meteorhacks/meteord:base
+      <%= dockerImage %>
   else
     docker run \
       -d \
@@ -92,7 +92,7 @@ set -e
       -e "VIRTUAL_HOST=$LETSENCRYPT_HOST" \
       -e "LETSENCRYPT_HOST=$LETSENCRYPT_HOST" \
       -e "LETSENCRYPT_EMAIL=$LETSENCRYPT_EMAIL" \
-      meteorhacks/meteord:base
+      <%= dockerImage %>
   fi
 <% } %>
 
@@ -108,7 +108,7 @@ set -e
       --hostname="$HOSTNAME-$APPNAME" \
       --env=MONGO_URL=mongodb://mongodb:27017/$APPNAME \
       --name=$APPNAME \
-      meteorhacks/meteord:base
+      <%= dockerImage %>
   else
     docker run \
       -d \
@@ -118,7 +118,7 @@ set -e
       --hostname="$HOSTNAME-$APPNAME" \
       --env-file=$ENV_FILE \
       --name=$APPNAME \
-      meteorhacks/meteord:base
+      <%= dockerImage %>
   fi
 <% } %>
 
