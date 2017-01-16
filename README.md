@@ -4,6 +4,12 @@
 
 > For Meteor 1.4 support use *npm install -g mupx-letsencrypt@meteor14*
 
+Enable support to choose your dockerImage.
+
+i.e. 
+"dockerImage": "abernix/meteord:base",
+
+
 ### Let's Encrypt support
 
 This is [Meteor-Up mupx](https://github.com/arunoda/meteor-up/tree/mupx) fork, with [Let's encrypt](https://letsencrypt.org) support out of the box. It is built on top of [Docker-letsencrypt-nginx-proxy-companion](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion).
